@@ -11,10 +11,10 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
 
-var express = require('express')
-var axios = require('axios')
-var app = express()
-var apiRoutes = express.Router()
+let express = require('express')
+let axios = require('axios')
+let app = express()
+let apiRoutes = express.Router()
 app.use('/api', apiRoutes)
 
 
@@ -53,7 +53,57 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     },
     before(app) {
       app.get('/api/getDiscList', function (req, res) {
-        var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg' // 原api
+        let url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg' // 原api
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      }),
+      app.get('/api/lyric', function (req, res) {
+        let url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg' // 原api
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          let ret = response.data
+          if (typeof ret === 'string') {
+            let reg = /^\w+\(({[^()]+})\)$/
+            let matches = ret.match(reg)
+            if (matches) {
+              ret = JSON.parse(matches[1])
+            }
+          }
+          res.json(ret)
+        }).catch((e) => {
+          console.log(e)
+        })
+      }),
+      app.get('/api/getSongList', function (req, res) {
+        let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg' // 原api
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      }),
+      app.get('/api/search', function (req, res) {
+        let url = 'https://c.y.qq.com/soso/fcgi-bin/client_search_cp' // 原api
         axios.get(url, {
           headers: {
             referer: 'https://c.y.qq.com/',

@@ -28,7 +28,10 @@ module.exports = {
       'vue$':'vue/dist/vue.js',
       'src': resolve('src'),
       'common':resolve('src/common'),
-      'components':resolve('src/components')
+      'components':resolve('src/components'),
+      'base':resolve('src/base'),
+      'api':resolve('src/api'),
+      'store':resolve('src/store')
     }
   },
   module: {

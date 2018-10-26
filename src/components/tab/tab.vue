@@ -22,7 +22,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../common/stylus/variable'
+    @import '~common/stylus/variable'
 
     .tab{
         display : flex

@@ -1,9 +1,10 @@
-import jsonp from '../common/js/jsonp'
+import jsonp from 'common/js/jsonp'
 import {commonParams,options} from './config'
 import axios from 'axios'
+import { Promise } from 'core-js';
 
 export function getRecommend(){
-    const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg';
+    const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
 
     const data = Object.assign({},commonParams,{
         platform:'h5',
@@ -11,11 +12,11 @@ export function getRecommend(){
         needNewCode:1
     })
 
-    return jsonp(url,data,options);
-};
+    return jsonp(url,data,options)
+}
 
 export function getDiscList(){
-    const url = '/api/getDiscList';
+    const url = '/api/getDiscList'
 
     const data = Object.assign({}, commonParams, {
       platform: 'yqq',
@@ -27,12 +28,41 @@ export function getDiscList(){
       categoryId: 10000000,
       rnd: Math.random(),
       format: 'json'
-    });
+    })
   
     return axios.get(url, {
       params: data
     }).then((res) => {
-      return Promise.resolve(res.data);
-    });
-};
+      return Promise.resolve(res.data)
+    })
+}
 
+export function getSongList(disstid){
+  const url = '/api/getSongList'
+
+  const data = Object.assign({}, commonParams, {
+    uin: 0,
+    format: 'json',
+    notice: 0,
+    needNewCode: 1,
+    new_format: 1,
+    pic: 500,
+    disstid: disstid,
+    type: 1,
+    json: 1,
+    utf8: 1,
+    onlysong: 0,
+    picmid: 1,
+    nosign: 1,
+    song_begin: 0,
+    platform: 'h5',
+    song_num: 100,
+    _: +new Date()
+  })
+
+  return axios.get(url,{
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
