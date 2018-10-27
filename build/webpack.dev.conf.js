@@ -10,9 +10,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
-
-let express = require('express')
-let axios = require('axios')
+const express = require('express')
+const axios = require('axios')
 let app = express()
 let apiRoutes = express.Router()
 app.use('/api', apiRoutes)
